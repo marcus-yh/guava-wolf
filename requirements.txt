@@ -1,0 +1,2 @@
+commitizen==3.29.0
+poetry==1.8.3

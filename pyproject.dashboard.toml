@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "gw-dashboard"
+version = "0.0.0"
+description = "Metric dashboard web interface"
+authors = [
+    "Marcus Brännvall <marcus.brannvall@yh.nackademin.se>"
+]
+packages = [
+    { include = "dashboard", from = "src/gw", to = "gw"},
+    { include = "common", from = "src/gw", to = "gw"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pymongo = "^4.8.0"
+flask = "^3.0.3"
+flask-socketio = "^5.3.6"
+
+[tool.poetry.scripts]
+metric-dashboard = "gw.dashboard.main:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

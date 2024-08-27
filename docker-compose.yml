@@ -1,0 +1,119 @@
+services:
+
+  host001:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.python
+    image: guava-wolf/python
+    container_name: host001
+    hostname: host001
+    user: root
+    working_dir: /usr/src/app
+    depends_on:
+      - mongodb
+    networks:
+      guava-wolf-net:
+        ipv4_address: 10.10.0.100
+    volumes:
+      - .:/usr/src/app
+      - /etc/localtime:/etc/localtime:ro
+    entrypoint: ["/usr/src/app/bin/docker-entrypoint"]
+    command: ["cron", "-f"]
+
+  host002:
+    image: guava-wolf/python
+    container_name: host002
+    hostname: host002
+    user: root
+    working_dir: /usr/src/app
+    depends_on:
+      - mongodb
+    networks:
+      guava-wolf-net:
+        ipv4_address: 10.10.0.101
+    volumes:
+      - .:/usr/src/app
+      - /etc/localtime:/etc/localtime:ro
+    entrypoint: ["/usr/src/app/bin/docker-entrypoint"]
+    command: ["cron", "-f"]
+
+  host003:
+    image: guava-wolf/python
+    container_name: host003
+    hostname: host003
+    user: root
+    working_dir: /usr/src/app
+    depends_on:
+      - mongodb
+    networks:
+      guava-wolf-net:
+        ipv4_address: 10.10.0.102
+    volumes:
+      - .:/usr/src/app
+      - /etc/localtime:/etc/localtime:ro
+    entrypoint: ["/usr/src/app/bin/docker-entrypoint"]
+    command: ["cron", "-f"]
+
+  flask:
+    image: guava-wolf/python
+    container_name: flask
+    hostname: flask
+    user: root
+    working_dir: /usr/src/app
+    depends_on:
+      - mongodb
+    networks:
+      guava-wolf-net:
+        ipv4_address: 10.10.0.103
+    volumes:
+      - .:/usr/src/app
+      - /etc/localtime:/etc/localtime:ro
+    entrypoint: ["/usr/src/app/bin/docker-entrypoint"]
+    command: ["tail", "-f", "/dev/null"]
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Linux4Ever
+    networks:
+      guava-wolf-net:
+        ipv4_address: 10.10.0.104
+    volumes:
+      - guava-wolf-db-data:/data/db
+      - /etc/localtime:/etc/localtime:ro
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    hostname: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Linux4Ever
+      ME_CONFIG_MONGODB_URL: mongodb://root:Linux4Ever@mongodb:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - mongodb
+    networks:
+      guava-wolf-net:
+        ipv4_address: 10.10.0.105
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+volumes:
+  guava-wolf-db-data:
+    name: guava-wolf-db-data
+
+networks:
+  guava-wolf-net:
+    name: guava-wolf-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/24

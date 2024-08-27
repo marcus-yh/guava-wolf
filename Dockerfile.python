@@ -1,0 +1,22 @@
+FROM python:3.12.5-slim-bookworm
+
+# define apt dependencies
+ENV APT_DEPS \
+    bash \
+    cron \
+    vim
+
+# install apt dependencies
+RUN apt update && \
+    apt install -y ${APT_DEPS}
+
+# create app dir
+ENV APP_DIR /usr/src/app
+RUN mkdir -p ${APP_DIR}
+WORKDIR ${APP_DIR}
+
+# add app dir to path 
+ENV PATH=${PATH}:${APP_DIR}/bin
+
+# default command
+CMD ["/usr/bin/bash"]

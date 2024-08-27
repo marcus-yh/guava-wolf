@@ -1,0 +1,39 @@
+#!/bin/bash
+set -eux
+set -o pipefail
+
+# determine package pattern
+if [[ $(hostname) == host* ]]; then
+    pattern="*reporter*.tar.gz"
+else
+    pattern="*dashboard*.tar.gz"
+fi
+
+# search for python installable packages
+packages=$(find "${APP_DIR}/dist" -type f -name "${pattern}")
+
+# verify that at least one package was found
+if [[ -z "${packages}" ]]; then
+    echo "Did not find any installable python package!"
+    exit 1
+fi
+
+# select latest package
+package=$(echo "${packages}" | sort -V | tail -n 1)
+
+# install python package
+pip install "${package}"
+
+# install crontabs for host containers
+if [[ $(hostname) == host* ]];then
+    # search for crontabs
+    crontabs=$(find "${APP_DIR}/cron" -type f)
+
+    # install crontabs
+    for file in ${crontabs}; do
+        crontab "${file}"
+    done
+fi
+
+# execute docker commands
+exec "${@}"

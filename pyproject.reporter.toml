@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "gw-reporter"
+version = "0.0.0"
+description = "Reporter application"
+authors = [
+    "Marcus Brännvall <marcus.brannvall@yh.nackademin.se>"
+]
+packages = [
+    { include = "reporter", from = "src/gw", to = "gw" },
+    { include = "common", from = "src/gw", to = "gw" }
+    
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+psutil = "^6.0.0"
+pymongo = "^4.8.0"
+
+[tool.poetry.scripts]
+metric-reporter = "gw.reporter.main:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
