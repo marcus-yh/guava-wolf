@@ -3,6 +3,9 @@ name = "gw-dashboard"
 version = "0.0.0"
 description = "Metric dashboard web interface"
 authors = [
+    "Nastaran Abdollahpour <nastaran.abdollahpour@yh.nackademin.se>",
+    "Johannes Abraham <johannes.abraham@yh.nackademin.se>",
+    "Robin Bergman <robin.bergman@yh.nackademin.se>",
     "Marcus Brännvall <marcus.brannvall@yh.nackademin.se>"
 ]
 packages = [

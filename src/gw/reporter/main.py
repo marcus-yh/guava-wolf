@@ -6,7 +6,8 @@ from gw.reporter import metrics
 
 def main():
     database.connect()
-    database.select("metric_db")
+    database.use("metric_db")
+    database.collection("metrics_collection")
     data = {
         'timestamp': datetime.now(),
         'hostname': socket.gethostname(),

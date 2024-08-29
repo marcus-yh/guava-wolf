@@ -3,7 +3,10 @@ name = "gw-reporter"
 version = "0.0.0"
 description = "Reporter application"
 authors = [
-    "Marcus Brännvall <marcus.brannvall@yh.nackademin.se>"
+    "Robin Bergman <robin.bergman@yh.nackademin.se>",
+    "Marcus Brännvall <marcus.brannvall@yh.nackademin.se>",
+    "Johannes Bergman <johannes.brannvall@yh.nackademin.se>",
+    "Nastaran Abdollahpour <nastaran.abdollahpour@yh.nackademin.se>"
 ]
 packages = [
     { include = "reporter", from = "src/gw", to = "gw" },
